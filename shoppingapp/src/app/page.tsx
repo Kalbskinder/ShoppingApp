@@ -6,7 +6,9 @@ import { categories } from "./data";
 export default function Home() {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [items, setItems] = useState<{ name: string; category: string }[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
+  // Mock items
   useEffect(() => {
     setItems([
       { name: "Banana", category: "Fruits" },
@@ -25,6 +27,43 @@ export default function Home() {
       { name: "Ground Beef", category: "Meat" },
     ]);
   }, []);
+
+  const markListAsDone = () => {
+    setCheckedItems({});
+    setItems([]);
+    setModalVisible(false);
+  };
+
+  const ShoppingItem = (item: { name: string; category: string }) => {
+    return (
+      <li
+        key={item.name}
+        className="p-2 bg-white rounded shadow-sm flex justify-between items-center cursor-pointer"
+        onClick={() => toggleItem(item.name)}
+      >
+        {item.name}
+        <input
+          type="checkbox"
+          checked={!!checkedItems[item.name]}
+          readOnly
+        />
+      </li> 
+    )
+  }
+
+  const ConfirmMarkAsDoneModal = () => {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full modal-bg flex justify-center items-center">
+        <div className="bg-white p-4 rounded shadow">
+          <p className="text-lg font-semibold">Are you sure you want to delete all items from the list?</p>
+          <div className="flex justify-center mt-4">
+            <button className="bg-red-500 text-white px-4 py-2 rounded mr-2 cursor-pointer" onClick={markListAsDone}>Yes</button>  
+            <button className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer" onClick={() => {setModalVisible(false)}}>No</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const toggleItem = (itemName: string) => {
     setCheckedItems((prev) => ({
@@ -62,18 +101,7 @@ export default function Home() {
               {filteredItems.length > 0 ? (
                 <ul className="p-4 space-y-2 border-t border-gray-300">
                   {filteredItems.map((item) => (
-                    <li
-                      key={item.name}
-                      className="p-2 bg-white rounded shadow-sm flex justify-between items-center cursor-pointer"
-                      onClick={() => toggleItem(item.name)}
-                    >
-                      {item.name}
-                      <input
-                        type="checkbox"
-                        checked={!!checkedItems[item.name]}
-                        readOnly
-                      />
-                    </li>
+                    <ShoppingItem key={item.name} {...item} />
                   ))}
                 </ul>
               ) : (
@@ -84,10 +112,13 @@ export default function Home() {
             </div>
           );
         })}
-        <button className="bg-blue-500 text-white p-2 rounded w-full cursor-pointer">
-          Mark List as Done
+        <button className="bg-blue-500 text-white p-2 rounded w-full cursor-pointer" onClick={() => setModalVisible(true)}>
+          Reset List
         </button>
       </main>
+
+      {/* Modal */}
+      { modalVisible ? <ConfirmMarkAsDoneModal /> : null }
 
       {/* Floating Button */}
       <button className="fixed bottom-6 right-6 bg-blue-500 text-white w-12 h-12 rounded-full shadow-lg text-2xl flex items-center justify-center">
