@@ -64,6 +64,7 @@ export default function Home() {
             </div>
           );
         })}
+        <button className="bg-blue-500 text-white p-2 rounded w-full">Mark List as Done</button>
       </main>
 
       {/* Floating Button */}
