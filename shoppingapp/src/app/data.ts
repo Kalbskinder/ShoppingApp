@@ -19,12 +19,12 @@ export const shoppingData = [
 
 // Categories for dropdown
 export const categories = [
-    "Vegetables",
-    "Fruits",
-    "Sweets & Snacks",
-    "Hygiene",
-    "Beverages",
-    "Frozen",
-    "Meat",
-    "Other"
-]
+  { name: "Vegetables", bgColor: "#d1fae5" },
+  { name: "Fruits", bgColor: "#fef9c3" },
+  { name: "Sweets & Snacks", bgColor: "#fbcfe8" },
+  { name: "Hygiene", bgColor: "#e9d5ff" },
+  { name: "Beverages", bgColor: "#bfdbfe" },
+  { name: "Frozen", bgColor: "#cffafe" },
+  { name: "Meat", bgColor: "#fecaca" },
+  { name: "Other", bgColor: "#e5e7eb" },
+];
