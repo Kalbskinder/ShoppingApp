@@ -1,10 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { shoppingData, categories } from "./data";
+import { useState, useEffect } from "react";
+import { categories } from "./data";
 
 export default function Home() {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+  const [items, setItems] = useState<{ name: string; category: string }[]>([]);
+
+  useEffect(() => {
+    setItems([
+      { name: "Banana", category: "Fruits" },
+      { name: "Apple", category: "Fruits" },
+      { name: "Carrot", category: "Vegetables" },
+      { name: "Broccoli", category: "Vegetables" },
+      { name: "Chocolate Bar", category: "Sweets & Snacks" },
+      { name: "Potato Chips", category: "Sweets & Snacks" },
+      { name: "Shampoo", category: "Hygiene" },
+      { name: "Toothpaste", category: "Hygiene" },
+      { name: "Orange Juice", category: "Beverages" },
+      { name: "Mineral Water", category: "Beverages" },
+      { name: "Frozen Pizza", category: "Frozen" },
+      { name: "Ice Cream", category: "Frozen" },
+      { name: "Chicken Breast", category: "Meat" },
+      { name: "Ground Beef", category: "Meat" },
+    ]);
+  }, []);
 
   const toggleItem = (itemName: string) => {
     setCheckedItems((prev) => ({
@@ -23,7 +43,7 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex-1 p-4 space-y-4">
         {categories.map((category) => {
-          const items = shoppingData.filter(
+          const filteredItems = items.filter(
             (item) => item.category === category.name
           );
 
@@ -39,9 +59,9 @@ export default function Home() {
               </div>
 
               {/* Items */}
-              {items.length > 0 ? (
+              {filteredItems.length > 0 ? (
                 <ul className="p-4 space-y-2 border-t border-gray-300">
-                  {items.map((item) => (
+                  {filteredItems.map((item) => (
                     <li
                       key={item.name}
                       className="p-2 bg-white rounded shadow-sm flex justify-between items-center cursor-pointer"
@@ -64,7 +84,9 @@ export default function Home() {
             </div>
           );
         })}
-        <button className="bg-blue-500 text-white p-2 rounded w-full">Mark List as Done</button>
+        <button className="bg-blue-500 text-white p-2 rounded w-full cursor-pointer">
+          Mark List as Done
+        </button>
       </main>
 
       {/* Floating Button */}
