@@ -17,3 +17,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.modal-bg {
+  background-color: #6e6e6e7a;
+}
