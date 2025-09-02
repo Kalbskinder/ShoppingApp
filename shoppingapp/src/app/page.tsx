@@ -1,10 +1,18 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { shoppingData, categories } from "./data";
 
-
 export default function Home() {
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+
+  const toggleItem = (itemName: string) => {
+    setCheckedItems((prev) => ({
+      ...prev,
+      [itemName]: !prev[itemName],
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
       {/* Header */}
@@ -25,7 +33,7 @@ export default function Home() {
               className="rounded shadow overflow-hidden"
               style={{ backgroundColor: category.bgColor }}
             >
-              {/* Kategorie Header */}
+              {/* Category Header */}
               <div className="w-full text-left p-4">
                 <span className="font-semibold text-lg">{category.name}</span>
               </div>
@@ -36,16 +44,21 @@ export default function Home() {
                   {items.map((item) => (
                     <li
                       key={item.name}
-                      className="p-2 bg-white rounded shadow-sm flex justify-between items-center"
+                      className="p-2 bg-white rounded shadow-sm flex justify-between items-center cursor-pointer"
+                      onClick={() => toggleItem(item.name)}
                     >
                       {item.name}
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        checked={!!checkedItems[item.name]}
+                        readOnly
+                      />
                     </li>
                   ))}
                 </ul>
               ) : (
                 <div className="p-4 text-gray-500 border-t border-gray-300">
-                  Keine Artikel
+                  No Items
                 </div>
               )}
             </div>
@@ -54,7 +67,7 @@ export default function Home() {
       </main>
 
       {/* Floating Button */}
-      <button className="fixed bottom-6 right-6 bg-blue-500 text-white w-16 h-16 rounded-full shadow-lg text-2xl flex items-center justify-center">
+      <button className="fixed bottom-6 right-6 bg-blue-500 text-white w-12 h-12 rounded-full shadow-lg text-2xl flex items-center justify-center">
         +
       </button>
     </div>
