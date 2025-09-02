@@ -1,3 +1,5 @@
+import { Carrot, Apple, Cookie, Bath, CupSoda, Snowflake, Drumstick, AlertTriangle, CircleQuestionMark } from "lucide-react";
+
 // Automaticly select a category based on the item name
 // When no category is found, "Other" is used
 export const shoppingData = [
@@ -19,12 +21,12 @@ export const shoppingData = [
 
 // Categories for dropdown
 export const categories = [
-  { name: "Vegetables", bgColor: "#d1fae5" },
-  { name: "Fruits", bgColor: "#fef9c3" },
-  { name: "Sweets & Snacks", bgColor: "#fbcfe8" },
-  { name: "Hygiene", bgColor: "#e9d5ff" },
-  { name: "Beverages", bgColor: "#bfdbfe" },
-  { name: "Frozen", bgColor: "#cffafe" },
-  { name: "Meat", bgColor: "#fecaca" },
-  { name: "Other", bgColor: "#e5e7eb" },
+  { name: "Vegetables", bgColor: "#d1fae5", icon: Carrot },
+  { name: "Fruits", bgColor: "#fef9c3", icon: Apple },
+  { name: "Sweets & Snacks", bgColor: "#fbcfe8", icon: Cookie },
+  { name: "Hygiene", bgColor: "#e9d5ff", icon: Bath },
+  { name: "Beverages", bgColor: "#bfdbfe", icon: CupSoda },
+  { name: "Frozen", bgColor: "#cffafe", icon: Snowflake },
+  { name: "Meat", bgColor: "#fecaca", icon: Drumstick },
+  { name: "Other", bgColor: "#e5e7eb", icon: CircleQuestionMark },
 ];

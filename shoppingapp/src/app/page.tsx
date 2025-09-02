@@ -100,7 +100,10 @@ export default function Home() {
             >
               {/* Category Header */}
               <div className="w-full text-left p-4">
-                <span className="font-semibold text-lg">{category.name}</span>
+                <div className="flex flex-row space-x-2 items-center">
+                  <category.icon size={18} />
+                  <span className="font-semibold text-lg">{category.name}</span>
+                </div>
               </div>
 
               {/* Items */}
