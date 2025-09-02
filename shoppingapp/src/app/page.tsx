@@ -4,50 +4,51 @@ import { useState, useEffect } from "react";
 import { categories } from "./data";
 
 export default function Home() {
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-  const [items, setItems] = useState<{ name: string; category: string }[]>([]);
+  const [items, setItems] = useState<{ name: string; category: string, quantity: number, checked: boolean }[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   // Mock items
   useEffect(() => {
     setItems([
-      { name: "Banana", category: "Fruits" },
-      { name: "Apple", category: "Fruits" },
-      { name: "Carrot", category: "Vegetables" },
-      { name: "Broccoli", category: "Vegetables" },
-      { name: "Chocolate Bar", category: "Sweets & Snacks" },
-      { name: "Potato Chips", category: "Sweets & Snacks" },
-      { name: "Shampoo", category: "Hygiene" },
-      { name: "Toothpaste", category: "Hygiene" },
-      { name: "Orange Juice", category: "Beverages" },
-      { name: "Mineral Water", category: "Beverages" },
-      { name: "Frozen Pizza", category: "Frozen" },
-      { name: "Ice Cream", category: "Frozen" },
-      { name: "Chicken Breast", category: "Meat" },
-      { name: "Ground Beef", category: "Meat" },
+      { name: "Banana", category: "Fruits", quantity: 2, checked: false },
+      { name: "Apple", category: "Fruits", quantity: 1, checked: false },
+      { name: "Carrot", category: "Vegetables", quantity: 3, checked: false },
+      { name: "Broccoli", category: "Vegetables", quantity: 1, checked: false },
+      { name: "Chocolate Bar", category: "Sweets & Snacks", quantity: 1, checked: false },
+      { name: "Potato Chips", category: "Sweets & Snacks", quantity: 1, checked: false },
+      { name: "Shampoo", category: "Hygiene", quantity: 1, checked: false },
+      { name: "Toothpaste", category: "Hygiene", quantity: 1, checked: false },
+      { name: "Orange Juice", category: "Beverages", quantity: 1, checked: false },
+      { name: "Mineral Water", category: "Beverages", quantity: 1, checked: false },
+      { name: "Frozen Pizza", category: "Frozen", quantity: 1, checked: false },
+      { name: "Ice Cream", category: "Frozen", quantity: 1, checked: false },
+      { name: "Chicken Breast", category: "Meat", quantity: 1, checked: false },
+      { name: "Ground Beef", category: "Meat", quantity: 1, checked: false },
     ]);
   }, []);
 
   const markListAsDone = () => {
-    setCheckedItems({});
     setItems([]);
     setModalVisible(false);
   };
 
-  const ShoppingItem = (item: { name: string; category: string }) => {
+  const ShoppingItem = (item: { name: string; category: string, quantity: number, checked: boolean }) => {
     return (
       <li
         key={item.name}
         className="p-2 bg-white rounded shadow-sm flex justify-between items-center cursor-pointer"
         onClick={() => toggleItem(item.name)}
       >
-        {item.name}
-        <input
-          type="checkbox"
-          checked={!!checkedItems[item.name]}
-          readOnly
-        />
-      </li> 
+        <div className="flex-1">{item.name}</div>
+        <div className="flex justify-between items-center">
+          <div className="text-sm text-gray-500 mr-2">{item.quantity}</div>
+          <input
+            type="checkbox"
+            checked={item.checked}
+            readOnly
+          />
+        </div>
+      </li>
     )
   }
 
@@ -66,10 +67,15 @@ export default function Home() {
   }
 
   const toggleItem = (itemName: string) => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [itemName]: !prev[itemName],
-    }));
+    setItems((prev) => {
+      const updatedItems = prev.map((item) => {
+        if (item.name === itemName) {
+          return { ...item, checked: !item.checked };
+        }
+        return item;
+      });
+      return updatedItems;
+    });
   };
 
   return (
@@ -94,7 +100,10 @@ export default function Home() {
             >
               {/* Category Header */}
               <div className="w-full text-left p-4">
-                <span className="font-semibold text-lg">{category.name}</span>
+                <div className="flex flex-row space-x-2 items-center">
+                  <category.icon size={18} />
+                  <span className="font-semibold text-lg">{category.name}</span>
+                </div>
               </div>
 
               {/* Items */}
