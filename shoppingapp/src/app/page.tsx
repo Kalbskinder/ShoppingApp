@@ -7,6 +7,10 @@ export default function Home() {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [items, setItems] = useState<{ name: string; category: string }[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [addNewProductVisible, setAddNewProductVisible] = useState(false)
+  const [productName, setProductName] = useState("");
+  const [category, setCategory] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   // Mock items
   useEffect(() => {
@@ -65,6 +69,76 @@ export default function Home() {
     )
   }
 
+  const AddNewProduct = () => {
+    const handleCreate = () => {
+      const usedCategory = category ? category : "Other";
+      if (productName && quantity > 0) {
+        setItems((prev) => [
+          ...prev,
+          ...Array.from({ length: quantity }, () => ({ name: productName, category: usedCategory }))
+        ]);
+        setAddNewProductVisible(false);
+        setProductName("");
+        setCategory("");
+        setQuantity(1);
+      }
+    };
+
+    return (
+      <div className="fixed top-0 left-0 w-full h-full modal-bg flex justify-center items-center z-50">
+        <div className="bg-white p-6 rounded-xl shadow flex flex-col gap-4 min-w-[320px]">
+          <input
+            className="border border-gray-300 rounded px-3 py-2 text-lg font-handwriting outline-none"
+            placeholder="Product"
+            value={productName}
+            onChange={e => setProductName(e.target.value)}
+            autoFocus
+          />
+          <select
+            className="border border-gray-300 rounded px-3 py-2 text-lg font-handwriting outline-none"
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+          >
+            <option value="" disabled>Category</option>
+            {categories.map(cat => (
+              <option key={cat.name} value={cat.name}>{cat.name}</option>
+            ))}
+          </select>
+          <div className="flex items-center gap-2">
+            <button
+              className="text-red-500 text-2xl px-2"
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              aria-label="Decrease quantity"
+              type="button"
+            >-</button>
+            <input
+              className="border border-gray-300 rounded w-12 text-center text-lg font-handwriting"
+              type="number"
+              min={1}
+              value={quantity}
+              onChange={e => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+            />
+            <button
+              className="text-green-600 text-2xl px-2"
+              onClick={() => setQuantity(q => q + 1)}
+              aria-label="Increase quantity"
+              type="button"
+            >+</button>
+          </div>
+          <button
+            className="bg-blue-400 text-white px-6 py-2 rounded shadow font-handwriting text-lg self-end"
+            onClick={handleCreate}
+            disabled={!productName}
+            type="button"
+          >
+            create
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+
   const toggleItem = (itemName: string) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -119,9 +193,13 @@ export default function Home() {
 
       {/* Modal */}
       { modalVisible ? <ConfirmMarkAsDoneModal /> : null }
+      { addNewProductVisible ? <AddNewProduct /> : null }
 
       {/* Floating Button */}
-      <button className="fixed bottom-6 right-6 bg-blue-500 text-white w-12 h-12 rounded-full shadow-lg text-2xl flex items-center justify-center">
+      <button
+        className="fixed bottom-6 right-6 bg-blue-500 text-white w-12 h-12 rounded-full shadow-lg text-2xl flex items-center justify-center"
+        onClick={() => setAddNewProductVisible(true)}
+      >
         +
       </button>
     </div>
