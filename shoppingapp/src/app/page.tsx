@@ -134,14 +134,14 @@ export default function Home() {
       <div className="fixed top-0 left-0 w-full h-full modal-bg flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-xl shadow flex flex-col gap-4 min-w-[320px]">
           <input
-            className="border border-gray-300 rounded px-3 py-2 text-lg font-handwriting outline-none"
+            className="border border-gray-300 rounded px-3 py-2 font-handwriting outline-none"
             placeholder="Product"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
             autoFocus
           />
           <select
-            className="border border-gray-300 rounded px-3 py-2 text-lg font-handwriting outline-none"
+            className="border border-gray-300 rounded px-3 py-2 font-handwriting outline-none"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -164,7 +164,7 @@ export default function Home() {
               -
             </button>
             <input
-              className="border border-gray-300 rounded w-12 text-center text-lg font-handwriting"
+              className="border border-gray-300 rounded w-12 text-center font-handwriting"
               type="number"
               min={1}
               value={quantity}
@@ -181,14 +181,14 @@ export default function Home() {
           </div>
           <div className="flex justify-end gap-2">
             <button
-              className="bg-gray-400 text-white px-6 py-2 rounded shadow font-handwriting text-lg"
+              className="bg-gray-400 text-white px-6 py-2 rounded shadow font-handwriting"
               onClick={handleCancel}
               type="button"
             >
               cancel
             </button>
             <button
-              className="bg-blue-400 text-white px-6 py-2 rounded shadow font-handwriting text-lg"
+              className="bg-blue-400 text-white px-6 py-2 rounded shadow font-handwriting"
               onClick={handleCreate}
               disabled={!productName}
               type="button"
