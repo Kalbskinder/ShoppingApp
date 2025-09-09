@@ -82,8 +82,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
       {/* Header */}
-      <nav className="bg-white shadow p-4 flex justify-center flex-col space-x-2 items-center">
-        <h1 className="text-xl font-bold"><ShoppingCart /> Shopping App</h1>
+      <nav className="bg-white shadow p-4 flex justify-center flex-col items-center">
+        <h1 className="text-xl font-bold flex items-center space-x-2">
+          <ShoppingCart />
+          <span>Shopping App</span>
+        </h1>
       </nav>
 
       {/* Main Content */}
