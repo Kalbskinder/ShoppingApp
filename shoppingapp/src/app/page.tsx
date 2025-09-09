@@ -38,6 +38,15 @@ export default function Home() {
     setModalVisible(false);
   };
 
+  const deleteItem = (itemName: string) => {
+    setItems((prev) => prev.filter(item => item.name !== itemName));
+    setCheckedItems((prev) => {
+      const newChecked = { ...prev };
+      delete newChecked[itemName];
+      return newChecked;
+    });
+  };
+
   const ShoppingItem = (item: { name: string; category: string }) => {
     return (
       <li
@@ -45,12 +54,27 @@ export default function Home() {
         className="p-2 bg-white rounded shadow-sm flex justify-between items-center cursor-pointer"
         onClick={() => toggleItem(item.name)}
       >
-        {item.name}
+        <span className="flex-1">{item.name}</span>
         <input
           type="checkbox"
           checked={!!checkedItems[item.name]}
           readOnly
+          onClick={e => e.stopPropagation()}
         />
+        <button
+          className="ml-2 text-red-500 hover:text-red-700"
+          onClick={e => {
+            e.stopPropagation();
+            deleteItem(item.name);
+          }}
+          aria-label="Delete item"
+          type="button"
+        >
+          {/* Trash icon SVG */}
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </li> 
     )
   }
@@ -82,6 +106,13 @@ export default function Home() {
         setCategory("");
         setQuantity(1);
       }
+    };
+
+    const handleCancel = () => {
+      setAddNewProductVisible(false);
+      setProductName("");
+      setCategory("");
+      setQuantity(1);
     };
 
     return (
@@ -125,14 +156,23 @@ export default function Home() {
               type="button"
             >+</button>
           </div>
-          <button
-            className="bg-blue-400 text-white px-6 py-2 rounded shadow font-handwriting text-lg self-end"
-            onClick={handleCreate}
-            disabled={!productName}
-            type="button"
-          >
-            create
-          </button>
+          <div className="flex justify-end gap-2">
+            <button
+              className="bg-gray-400 text-white px-6 py-2 rounded shadow font-handwriting text-lg"
+              onClick={handleCancel}
+              type="button"
+            >
+              cancel
+            </button>
+            <button
+              className="bg-blue-400 text-white px-6 py-2 rounded shadow font-handwriting text-lg"
+              onClick={handleCreate}
+              disabled={!productName}
+              type="button"
+            >
+              create
+            </button>
+          </div>
         </div>
       </div>
     )
